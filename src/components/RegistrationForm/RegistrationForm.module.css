@@ -1,0 +1,170 @@
+.form {
+  --form-bg: #191919;
+  --form-border-radius: 12px;
+  --form-box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  --form-title-color: #ffffff;
+  --label-color: #e0e0e0;
+  --label-icon-color: #007bff;
+  --input-border-form: #555555;
+  --input-bg-form: #3a3a3a;
+  --input-text-form: #ffffff;
+  --input-placeholder-form: #aaaaaa;
+  --icon-color: #bbbbbb;
+  --icon-hover-color: #007bff;
+  --error-color: #0056b3;
+  --button-form-bg: #007bff;
+  --button-form-hover-bg: #007bff;
+}
+
+.form {
+  margin: 80px auto;
+  background-color: var(--form-bg);
+  padding: 48px 40px;
+  border-radius: var(--form-border-radius);
+  box-shadow: var(--form-box-shadow);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.form:hover {
+  transform: translateY(-4px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form__title {
+  font-size: 2.4em;
+  color: var(--form-title-color);
+  margin-bottom: 32px;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.form__group {
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.form__label {
+  display: flex;
+  align-items: center;
+  font-size: 1.05em;
+  color: var(--label-color);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.labelIcon {
+  margin-right: 10px;
+  color: var(--label-icon-color);
+  font-size: 1.3em;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form__input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--input-border-form);
+  border-radius: 10px;
+  background-color: var(--input-bg-form);
+  color: var(--input-text-form);
+  font-size: 1.05em;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding-right: 80px;
+}
+
+.form__input:focus {
+  outline: none;
+  border-color: var(--form-title-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Использована переменная для синего цвета */
+}
+
+.form__input::placeholder {
+  color: var(--input-placeholder-form);
+  font-style: italic;
+}
+
+/* Иконка очистки */
+.clearIcon {
+  position: absolute;
+  right: 48px;
+  color: var(--icon-color);
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.clearIcon:hover {
+  color: var(--icon-hover-color);
+  transform: scale(1.15);
+}
+
+/* Иконка показа/скрытия пароля */
+.togglePasswordIcon {
+  position: absolute;
+  right: 16px;
+  color: var(--icon-color);
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.togglePasswordIcon:hover {
+  color: var(--icon-hover-color);
+  transform: scale(1.15);
+}
+
+.form__error {
+  display: block;
+  color: var(--error-color);
+  font-size: 0.9em;
+  margin-top: 6px;
+  text-align: left;
+  font-weight: 500;
+}
+
+/* Кнопка */
+.form__button {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--button-form-bg);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 24px;
+}
+
+.form__button:hover {
+  background-color: var(--button-form-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 123, 255, 0.3); /* Использована переменная для синего цвета */
+}
+
+.form__button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

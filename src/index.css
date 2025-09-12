@@ -1,0 +1,182 @@
+:root {
+  --background-dark: #0d1b2a;
+  --background-darker: #0b1622;
+  --header-bg-light: #1b263b;
+  --text-dark: #e0e1dd;
+  --title-accent: #3a86ff;
+  --nav-link-primary: #1e3a8a;
+  --nav-link-hover-bg: #1b263b;
+  --nav-link-hover-text: #3a86ff;
+  --main-text-color: #e0e1dd;
+  --box-shadow-light: rgba(0, 0, 0, 0.2);
+  --button-bg: #3a86ff;
+  --button-hover-bg: #265dbe;
+  --input-bg: #1e293b;
+  --input-border: #334155;
+  --input-text: #e0e1dd;
+  --input-placeholder: #94a3b8;
+
+  --form-bg: #1b263b;
+  --form-border-radius: 12px;
+  --form-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --form-title-color: var(--title-accent);
+  --label-color: var(--main-text-color);
+  --input-bg-form: #0f172a;
+  --input-border-form: #334155;
+  --input-text-form: #e0e1dd;
+  --input-placeholder-form: #64748b;
+  --error-color: #ef4444;
+  --button-form-bg: var(--button-bg);
+  --button-form-hover-bg: var(--button-hover-bg);
+  --icon-color: #64748b;
+  --icon-hover-color: var(--form-title-color);
+  --label-icon-color: #e0e1dd;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  text-rendering: optimizeLegibility;
+  background: var(--background-dark);
+  color: var(--main-text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+dl,
+dd,
+ol,
+ul,
+figure,
+figcaption,
+hr,
+fieldset,
+legend {
+  margin: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+a:hover {
+  color: var(--nav-link-hover-text);
+  background: var(--nav-link-hover-bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--title-accent);
+  outline-offset: 2px;
+}
+button:hover {
+  transform: translateY(-2px);
+}
+
+textarea {
+  resize: vertical;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: '';
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+audio,
+video {
+  display: inline-block;
+}
+
+/* ==== Кастомный скроллбар под стиль сайдбара ==== */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #11131f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3498db; 
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5dade2; /
+}
+
+::-webkit-scrollbar-corner {
+  background: #11131f;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3498db #11131f;
+}
