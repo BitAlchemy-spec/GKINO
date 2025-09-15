@@ -10,8 +10,8 @@ const Root = () => {
         <h1 className={styles.root__title}>
           <Link to="./">gkino</Link>
         </h1>
-        <nav className={styles.root__nav} title="Регистрация">
-          <Link to="/register" className={styles.userButton}>
+        <nav className={styles.root__nav}>
+          <Link to="/login" className={styles.userButton} title="login">
             <FontAwesomeIcon icon={faUser} className={styles.icon} />
           </Link>
         </nav>
