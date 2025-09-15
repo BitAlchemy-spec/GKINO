@@ -202,7 +202,7 @@ const HomePage: React.FC = () => {
           <div className={styles.searchWrap}>
             <input
               type="text"
-              placeholder="Введите название фильма"
+              placeholder="Введите текст"
               className={styles.searchInput}
               value={movieSearch}
               onChange={(e) => handleSearchChange(e.target.value)}
