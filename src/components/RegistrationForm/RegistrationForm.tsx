@@ -11,9 +11,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './RegistrationForm.module.css';
 
-// =========================
-// Типы данных для форм
-// =========================
 type RegisterFormInputs = {
   username: string;
   email: string;
@@ -26,15 +23,8 @@ type LoginFormInputs = {
 };
 
 const AuthForm: React.FC = () => {
-  // Активная вкладка: "register" или "login"
   const [activeTab, setActiveTab] = useState<'register' | 'login'>('register');
-
-  // Состояние показа/скрытия пароля
   const [showPassword, setShowPassword] = useState(false);
-
-  // =========================
-  // React Hook Form (регистрация)
-  // =========================
   const {
     register,
     handleSubmit,
@@ -43,10 +33,6 @@ const AuthForm: React.FC = () => {
     watch: watchRegister,
     formState: { errors: registerErrors },
   } = useForm<RegisterFormInputs>();
-
-  // =========================
-  // React Hook Form (логин)
-  // =========================
   const {
     register: loginRegister,
     handleSubmit: handleLoginSubmit,
@@ -55,16 +41,8 @@ const AuthForm: React.FC = () => {
     watch: watchLogin,
     formState: { errors: loginErrors },
   } = useForm<LoginFormInputs>();
-
-  // =========================
-  // Отслеживаем значения email
-  // =========================
   const registerEmail = watchRegister('email', '');
   const loginEmail = watchLogin('email', '');
-
-  // =========================
-  // Обработчики форм
-  // =========================
   const onRegister = (data: RegisterFormInputs) => {
     console.log('Регистрация:', data);
     resetRegister(); // очистить форму после отправки
@@ -72,14 +50,12 @@ const AuthForm: React.FC = () => {
 
   const onLogin = (data: LoginFormInputs) => {
     console.log('Вход:', data);
-    resetLogin(); // очистить форму после отправки
+    resetLogin();
   };
 
   return (
     <div className={styles.auth}>
-      {/* ====== Общая карточка ====== */}
       <div className={styles.auth__card}>
-        {/* ====== Табы ====== */}
         <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${activeTab === 'register' ? styles.active : ''}`}
@@ -95,10 +71,8 @@ const AuthForm: React.FC = () => {
           </button>
         </div>
 
-        {/* ====== Форма регистрации ====== */}
         {activeTab === 'register' && (
           <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
-            {/* Имя пользователя */}
             <div className={styles.form__group}>
               <label className={styles.form__label}>
                 <FontAwesomeIcon icon={faUser} className={styles.labelIcon} />
@@ -111,7 +85,7 @@ const AuthForm: React.FC = () => {
                   placeholder="Введите имя.."
                   {...register('username', { required: 'Введите имя пользователя' })}
                 />
-                {/* Очистка поля */}
+
                 <FontAwesomeIcon
                   icon={faTimes}
                   className={styles.clearIcon}
@@ -123,7 +97,6 @@ const AuthForm: React.FC = () => {
               )}
             </div>
 
-            {/* Email */}
             <div className={styles.form__group}>
               <label className={styles.form__label}>
                 <FontAwesomeIcon icon={faEnvelope} className={styles.labelIcon} />
@@ -133,10 +106,9 @@ const AuthForm: React.FC = () => {
                 <input
                   type="email"
                   className={styles.form__input}
-                  placeholder="Введите email.."
+                  placeholder="Введите email"
                   {...register('email', { required: 'Введите email' })}
                 />
-                {/* Очистка email (только если есть текст) */}
                 {registerEmail && (
                   <FontAwesomeIcon
                     icon={faTimes}
@@ -150,7 +122,6 @@ const AuthForm: React.FC = () => {
               )}
             </div>
 
-            {/* Пароль */}
             <div className={styles.form__group}>
               <label className={styles.form__label}>
                 <FontAwesomeIcon icon={faLock} className={styles.labelIcon} />
@@ -163,7 +134,6 @@ const AuthForm: React.FC = () => {
                   placeholder="Введите пароль"
                   {...register('password', { required: 'Введите пароль' })}
                 />
-                {/* Иконка скрыть/показать */}
                 <FontAwesomeIcon
                   icon={showPassword ? faEyeSlash : faEye}
                   className={styles.togglePasswordIcon}
@@ -175,17 +145,14 @@ const AuthForm: React.FC = () => {
               )}
             </div>
 
-            {/* Кнопка */}
             <button type="submit" className={styles.form__button}>
               Зарегистрироваться
             </button>
           </form>
         )}
 
-        {/* ====== Форма входа ====== */}
         {activeTab === 'login' && (
           <form className={styles.form} onSubmit={handleLoginSubmit(onLogin)}>
-            {/* Email */}
             <div className={styles.form__group}>
               <label className={styles.form__label}>
                 <FontAwesomeIcon icon={faEnvelope} className={styles.labelIcon} />
@@ -198,7 +165,7 @@ const AuthForm: React.FC = () => {
                   placeholder="Введите email"
                   {...loginRegister('email', { required: 'Введите email' })}
                 />
-                {/* Очистка email (только если есть текст) */}
+
                 {loginEmail && (
                   <FontAwesomeIcon
                     icon={faTimes}
@@ -212,7 +179,6 @@ const AuthForm: React.FC = () => {
               )}
             </div>
 
-            {/* Пароль */}
             <div className={styles.form__group}>
               <label className={styles.form__label}>
                 <FontAwesomeIcon icon={faLock} className={styles.labelIcon} />
@@ -225,7 +191,6 @@ const AuthForm: React.FC = () => {
                   placeholder="Введите пароль"
                   {...loginRegister('password', { required: 'Введите пароль' })}
                 />
-                {/* Иконка скрыть/показать */}
                 <FontAwesomeIcon
                   icon={showPassword ? faEyeSlash : faEye}
                   className={styles.togglePasswordIcon}
@@ -237,7 +202,6 @@ const AuthForm: React.FC = () => {
               )}
             </div>
 
-            {/* Кнопка */}
             <button type="submit" className={styles.form__button}>
               Войти
             </button>
