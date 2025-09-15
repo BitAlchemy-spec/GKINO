@@ -193,83 +193,85 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <aside className={styles.sidebar}>
-        <h1 className={styles.logo}>Поиск</h1>
+    <div className={styles.app}>
+      <div className={styles.container}>
+        <aside className={styles.sidebar}>
+          <h1 className={styles.logo}>Поиск</h1>
 
-        {/* ==== Поле поиска с кнопкой очистки ==== */}
-        <div className={styles.searchWrap}>
-          <input
-            type="text"
-            placeholder="Введите название фильма..."
-            className={styles.searchInput}
-            value={movieSearch}
-            onChange={(e) => handleSearchChange(e.target.value)}
-          />
-          {movieSearch && (
-            <button
-              type="button"
-              className={styles.clearBtn}
-              onClick={() => handleSearchChange('')}
-              aria-label="Очистить поиск"
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-          )}
-        </div>
-
-        <h2 className={styles.sidebar__title}>Категории</h2>
-        <ul className={styles.sidebar__list}>
-          <li
-            className={`${styles.sidebar__item} ${
-              selectedCategory === null ? styles['sidebar__item--active'] : ''
-            }`}
-            onClick={() => handleCategoryChange(null)}
-          >
-            Главная
-          </li>
-          {allCategories.map((category) => (
-            <li
-              key={category}
-              className={`${styles.sidebar__item} ${
-                selectedCategory === category ? styles['sidebar__item--active'] : ''
-              }`}
-              onClick={() => handleCategoryChange(category)}
-            >
-              {category}
-            </li>
-          ))}
-        </ul>
-      </aside>
-
-      <main className={styles.homepage}>
-        <section aria-label="Список фильмов">
-          <ul className={styles.grid}>
-            {paginatedMovies.length > 0 ? (
-              paginatedMovies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} onWatch={handleWatch} />
-              ))
-            ) : (
-              <p className={styles.noResults}>Фильмы не найдены</p>
+          {/* ==== Поле поиска с кнопкой очистки ==== */}
+          <div className={styles.searchWrap}>
+            <input
+              type="text"
+              placeholder="Введите название фильма"
+              className={styles.searchInput}
+              value={movieSearch}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
+            {movieSearch && (
+              <button
+                type="button"
+                className={styles.clearBtn}
+                onClick={() => handleSearchChange('')}
+                aria-label="Очистить поиск"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
             )}
-          </ul>
-        </section>
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-
-        <footer className={styles.footer}>
-          <div className={styles.footer__policy}>
-            <h4 className={styles.footer__title}>Политика конфиденциальности</h4>
-            <p className={styles.footer__text}>
-              Администратор сайта обязуется сохранять вашу конфиденциальность.
-            </p>
           </div>
-        </footer>
-      </main>
+
+          <h2 className={styles.sidebar__title}>Категории</h2>
+          <ul className={styles.sidebar__list}>
+            <li
+              className={`${styles.sidebar__item} ${
+                selectedCategory === null ? styles['sidebar__item--active'] : ''
+              }`}
+              onClick={() => handleCategoryChange(null)}
+            >
+              Главная
+            </li>
+            {allCategories.map((category) => (
+              <li
+                key={category}
+                className={`${styles.sidebar__item} ${
+                  selectedCategory === category ? styles['sidebar__item--active'] : ''
+                }`}
+                onClick={() => handleCategoryChange(category)}
+              >
+                {category}
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        <main className={styles.homepage}>
+          <section aria-label="Список фильмов">
+            <ul className={styles.grid}>
+              {paginatedMovies.length > 0 ? (
+                paginatedMovies.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} onWatch={handleWatch} />
+                ))
+              ) : (
+                <p className={styles.noResults}>Фильмы не найдены</p>
+              )}
+            </ul>
+          </section>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+
+          <footer className={styles.footer}>
+            <div className={styles.footer__policy}>
+              <h4 className={styles.footer__title}>Политика конфиденциальности</h4>
+              <p className={styles.footer__text}>
+                Администратор сайта обязуется сохранять вашу конфиденциальность.
+              </p>
+            </div>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 };
