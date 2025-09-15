@@ -11,7 +11,7 @@ type Movie = {
   category: string;
 };
 
-// ==== Список фильмов ====
+// ==== Список фильмов (тестовые данные) ====
 const movies: Movie[] = [
   {
     id: 1,
@@ -86,6 +86,7 @@ const allCategories: string[] = [
   'Детектив',
 ];
 
+// ==== Компонент карточки фильма ====
 const MovieCard: React.FC<{ movie: Movie; onWatch: (id: number) => void }> = React.memo(
   ({ movie, onWatch }) => (
     <li className={styles.card} aria-labelledby={`movie-${movie.id}`}>
@@ -104,6 +105,7 @@ const MovieCard: React.FC<{ movie: Movie; onWatch: (id: number) => void }> = Rea
   ),
 );
 
+// ==== Компонент пагинации ====
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -112,12 +114,13 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = React.memo(
   ({ currentPage, totalPages, onPageChange }) => {
-    if (totalPages <= 1) return null;
+    if (totalPages <= 1) return null; // скрыть если страниц меньше 2
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (
       <nav aria-label="Навигация по страницам" className={styles.pagination}>
         <ul className={styles.pagination__list}>
+          {/* Кнопка "назад" */}
           <li>
             <button
               className={styles.pagination__button}
@@ -128,6 +131,7 @@ const Pagination: React.FC<PaginationProps> = React.memo(
             </button>
           </li>
 
+          {/* Номера страниц */}
           {pageNumbers.map((num) => (
             <li key={num}>
               <button
@@ -141,6 +145,7 @@ const Pagination: React.FC<PaginationProps> = React.memo(
             </li>
           ))}
 
+          {/* Кнопка "вперёд" */}
           <li>
             <button
               className={styles.pagination__button}
@@ -156,49 +161,59 @@ const Pagination: React.FC<PaginationProps> = React.memo(
   },
 );
 
+// ==== Главная страница ====
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [movieSearch, setMovieSearch] = useState('');
-  const itemsPerPage = 8;
 
+  // ==== Состояния ====
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null); // текущая категория
+  const [currentPage, setCurrentPage] = useState(1); // текущая страница
+  const [movieSearch, setMovieSearch] = useState(''); // строка поиска
+  const itemsPerPage = 8; // кол-во фильмов на страницу
+
+  // ==== Фильтрация фильмов ====
   const filteredMovies = useMemo(() => {
     let result = movies;
+
+    // фильтрация по категории
     if (selectedCategory) {
       result = result.filter((m) => m.category === selectedCategory);
     }
+    // фильтрация по строке поиска
     if (movieSearch.trim()) {
       result = result.filter((m) => m.title.toLowerCase().includes(movieSearch.toLowerCase()));
     }
     return result;
   }, [selectedCategory, movieSearch]);
 
+  // ==== Разбиение на страницы ====
   const totalPages = Math.ceil(filteredMovies.length / itemsPerPage);
   const paginatedMovies = filteredMovies.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
 
+  // ==== Обработчики ====
   const handleWatch = useCallback((id: number) => navigate(`/movies/${id}`), [navigate]);
   const handlePageChange = useCallback((page: number) => setCurrentPage(page), []);
   const handleCategoryChange = useCallback((category: string | null) => {
     setSelectedCategory(category);
-    setCurrentPage(1);
+    setCurrentPage(1); // при смене категории сброс на первую страницу
   }, []);
   const handleSearchChange = useCallback((value: string) => {
     setMovieSearch(value);
-    setSelectedCategory(null);
+    setSelectedCategory(null); // при поиске сбрасываем категорию
     setCurrentPage(1);
   }, []);
 
   return (
     <div className={styles.app}>
       <div className={styles.container}>
+        {/* ==== Сайдбар ==== */}
         <aside className={styles.sidebar}>
           <h1 className={styles.logo}>Поиск</h1>
 
-          {/* ==== Поле поиска с кнопкой очистки ==== */}
+          {/* ==== Поле поиска ==== */}
           <div className={styles.searchWrap}>
             <input
               type="text"
@@ -207,6 +222,7 @@ const HomePage: React.FC = () => {
               value={movieSearch}
               onChange={(e) => handleSearchChange(e.target.value)}
             />
+            {/* Кнопка очистки поиска */}
             {movieSearch && (
               <button
                 type="button"
@@ -219,8 +235,10 @@ const HomePage: React.FC = () => {
             )}
           </div>
 
+          {/* ==== Список категорий ==== */}
           <h2 className={styles.sidebar__title}>Категории</h2>
           <ul className={styles.sidebar__list}>
+            {/* Главная (сброс фильтров) */}
             <li
               className={`${styles.sidebar__item} ${
                 selectedCategory === null ? styles['sidebar__item--active'] : ''
@@ -229,6 +247,7 @@ const HomePage: React.FC = () => {
             >
               Главная
             </li>
+            {/* Выводим все категории */}
             {allCategories.map((category) => (
               <li
                 key={category}
@@ -243,6 +262,7 @@ const HomePage: React.FC = () => {
           </ul>
         </aside>
 
+        {/* ==== Контент ==== */}
         <main className={styles.homepage}>
           <section aria-label="Список фильмов">
             <ul className={styles.grid}>
@@ -256,12 +276,14 @@ const HomePage: React.FC = () => {
             </ul>
           </section>
 
+          {/* ==== Пагинация ==== */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
 
+          {/* ==== Футер ==== */}
           <footer className={styles.footer}>
             <div className={styles.footer__policy}>
               <h4 className={styles.footer__title}>Политика конфиденциальности</h4>

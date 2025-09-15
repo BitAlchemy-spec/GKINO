@@ -2,12 +2,53 @@
 .authWrapper {
   min-height: 100vh;
   width: 100%;
-  background: #0d0f1a;
+  background: radial-gradient(
+      circle at var(--ax1, 30%) var(--ay1, 40%),
+      rgba(255, 255, 255, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at var(--ax2, 70%) var(--ay2, 60%),
+      rgba(255, 255, 255, 0.04),
+      transparent 65%
+    ),
+    radial-gradient(circle at var(--ax3, 50%) var(--ay3, 50%), rgba(0, 0, 0, 0.5), transparent 70%),
+    #0d0f1a;
+
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
   box-sizing: border-box;
+
+  animation: authBackgroundMove 25s ease-in-out infinite alternate;
+}
+
+@keyframes authBackgroundMove {
+  0% {
+    --ax1: 30%;
+    --ay1: 40%;
+    --ax2: 70%;
+    --ay2: 60%;
+    --ax3: 50%;
+    --ay3: 50%;
+  }
+  50% {
+    --ax1: 35%;
+    --ay1: 45%;
+    --ax2: 65%;
+    --ay2: 55%;
+    --ax3: 55%;
+    --ay3: 45%;
+  }
+  100% {
+    --ax1: 25%;
+    --ay1: 35%;
+    --ax2: 75%;
+    --ay2: 65%;
+    --ax3: 45%;
+    --ay3: 55%;
+  }
 }
 
 /* ==== Контейнер авторизации ==== */
@@ -58,11 +99,11 @@
 /* ==== Карточка авторизации ==== */
 .auth__card {
   background: var(--form-bg, #191919);
-  border-radius: 16px; /* аккуратные скругления */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* тень для аккуратности */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   overflow: hidden;
   width: 100%;
-  max-width: 420px; /* не растягивается слишком сильно */
+  max-width: 420px;
   animation: fadeIn 0.6s ease-out;
 }
 
@@ -174,7 +215,7 @@
 
 .form__input::placeholder {
   color: var(--input-placeholder, #aaa);
-  font-style: italic;
+  font-style: normal;
 }
 
 /* ==== Иконки внутри полей ==== */
@@ -187,12 +228,12 @@
   color: var(--icon-color, #bbb);
   cursor: pointer;
   transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
-  opacity: 1; /* всегда видимы */
-  pointer-events: auto; /* кликабельные */
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .clearIcon {
-  right: 38px; /* чтобы не налезала на togglePassword */
+  right: 38px;
 }
 
 .togglePasswordIcon {
