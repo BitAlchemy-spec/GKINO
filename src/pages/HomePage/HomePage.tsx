@@ -75,7 +75,6 @@ const movies: Movie[] = [
   },
 ];
 
-// ==== Все категории ====
 const allCategories: string[] = [
   'Приключения',
   'Фантастика',
@@ -262,7 +261,6 @@ const HomePage: React.FC = () => {
           onPageChange={handlePageChange}
         />
 
-        {/* ==== Футер ==== */}
         <footer className={styles.footer}>
           <div className={styles.footer__policy}>
             <h4 className={styles.footer__title}>Политика конфиденциальности</h4>

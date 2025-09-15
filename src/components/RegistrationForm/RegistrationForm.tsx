@@ -1,148 +1,251 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './RegistrationForm.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEye,
-  faEyeSlash,
-  faTimesCircle,
   faEnvelope,
   faLock,
-} from '@fortawesome/free-solid-svg-icons'; // Добавляем иконки для полей
+  faUser,
+  faTimes,
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-solid-svg-icons';
+import styles from './RegistrationForm.module.css';
 
-interface IFormInput {
+// =========================
+// Типы данных для форм
+// =========================
+type RegisterFormInputs = {
   username: string;
+  email: string;
   password: string;
-  confirmPassword: string;
-}
+};
 
-const RegistrationForm = () => {
+type LoginFormInputs = {
+  email: string;
+  password: string;
+};
+
+const AuthForm: React.FC = () => {
+  // Активная вкладка: "register" или "login"
+  const [activeTab, setActiveTab] = useState<'register' | 'login'>('register');
+
+  // Состояние показа/скрытия пароля
+  const [showPassword, setShowPassword] = useState(false);
+
+  // =========================
+  // React Hook Form (регистрация)
+  // =========================
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<IFormInput>();
+    reset: resetRegister,
+    setValue: setRegisterValue,
+    watch: watchRegister,
+    formState: { errors: registerErrors },
+  } = useForm<RegisterFormInputs>();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // =========================
+  // React Hook Form (логин)
+  // =========================
+  const {
+    register: loginRegister,
+    handleSubmit: handleLoginSubmit,
+    reset: resetLogin,
+    setValue: setLoginValue,
+    watch: watchLogin,
+    formState: { errors: loginErrors },
+  } = useForm<LoginFormInputs>();
 
-  const onSubmit = (data: IFormInput) => {
+  // =========================
+  // Отслеживаем значения email
+  // =========================
+  const registerEmail = watchRegister('email', '');
+  const loginEmail = watchLogin('email', '');
+
+  // =========================
+  // Обработчики форм
+  // =========================
+  const onRegister = (data: RegisterFormInputs) => {
     console.log('Регистрация:', data);
-    // Здесь можно отправить данные на сервер
+    resetRegister(); // очистить форму после отправки
   };
 
-  const clearInput = (fieldName: keyof IFormInput) => {
-    setValue(fieldName, '');
+  const onLogin = (data: LoginFormInputs) => {
+    console.log('Вход:', data);
+    resetLogin(); // очистить форму после отправки
   };
-
-  // Отслеживаем значения полей для условного отображения иконок очистки
-  const usernameValue = watch('username');
-  const passwordValue = watch('password');
-  const confirmPasswordValue = watch('confirmPassword');
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2 className={styles.form__title}>Регистрация</h2>
-
-      {/* Поле для Email */}
-      <div className={styles.form__group}>
-        <label className={styles.form__label}>
-          <FontAwesomeIcon icon={faEnvelope} className={styles.labelIcon} /> Email
-        </label>
-        <div className={styles.inputWrapper}>
-          <input
-            className={styles.form__input}
-            {...register('username', {
-              required: 'Введите email',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Некорректный формат email',
-              },
-            })}
-          />
-          {usernameValue && ( // Иконка очистки появляется только при наличии текста
-            <FontAwesomeIcon
-              icon={faTimesCircle}
-              className={styles.clearIcon}
-              onClick={() => clearInput('username')}
-            />
-          )}
+    <div className={styles.auth}>
+      {/* ====== Общая карточка ====== */}
+      <div className={styles.auth__card}>
+        {/* ====== Табы ====== */}
+        <div className={styles.tabs}>
+          <button
+            className={`${styles.tab} ${activeTab === 'register' ? styles.active : ''}`}
+            onClick={() => setActiveTab('register')}
+          >
+            Регистрация
+          </button>
+          <button
+            className={`${styles.tab} ${activeTab === 'login' ? styles.active : ''}`}
+            onClick={() => setActiveTab('login')}
+          >
+            Вход
+          </button>
         </div>
-        {errors.username && <span className={styles.form__error}>{errors.username.message}</span>}
-      </div>
 
-      {/* Поле для Пароля */}
-      <div className={styles.form__group}>
-        <label className={styles.form__label}>
-          <FontAwesomeIcon icon={faLock} className={styles.labelIcon} /> Пароль
-        </label>
-        <div className={styles.inputWrapper}>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            className={styles.form__input}
-            {...register('password', {
-              required: 'Введите пароль',
-              minLength: {
-                value: 6,
-                message: 'Пароль должен быть не менее 6 символов',
-              },
-            })}
-          />
-          {passwordValue && ( // Иконка очистки появляется только при наличии текста
-            <FontAwesomeIcon
-              icon={faTimesCircle}
-              className={styles.clearIcon}
-              onClick={() => clearInput('password')}
-            />
-          )}
-          <FontAwesomeIcon // Иконка показать/скрыть пароль
-            icon={showPassword ? faEye : faEyeSlash}
-            className={styles.togglePasswordIcon}
-            onClick={() => setShowPassword(!showPassword)}
-          />
-        </div>
-        {errors.password && <span className={styles.form__error}>{errors.password.message}</span>}
-      </div>
+        {/* ====== Форма регистрации ====== */}
+        {activeTab === 'register' && (
+          <form className={styles.form} onSubmit={handleSubmit(onRegister)}>
+            {/* Имя пользователя */}
+            <div className={styles.form__group}>
+              <label className={styles.form__label}>
+                <FontAwesomeIcon icon={faUser} className={styles.labelIcon} />
+                Имя пользователя:
+              </label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="text"
+                  className={styles.form__input}
+                  placeholder="Введите имя.."
+                  {...register('username', { required: 'Введите имя пользователя' })}
+                />
+                {/* Очистка поля */}
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  className={styles.clearIcon}
+                  onClick={() => setRegisterValue('username', '')}
+                />
+              </div>
+              {registerErrors.username && (
+                <p className={styles.form__error}>{registerErrors.username.message}</p>
+              )}
+            </div>
 
-      {/* Поле для Подтверждения пароля */}
-      <div className={styles.form__group}>
-        <label className={styles.form__label}>
-          <FontAwesomeIcon icon={faLock} className={styles.labelIcon} /> Подтвердите пароль
-        </label>
-        <div className={styles.inputWrapper}>
-          <input
-            type={showConfirmPassword ? 'text' : 'password'}
-            className={styles.form__input}
-            {...register('confirmPassword', {
-              required: 'Подтвердите пароль',
-              validate: (value) => value === watch('password') || 'Пароли не совпадают', // Логика сравнения паролей
-            })}
-          />
-          {confirmPasswordValue && ( // Иконка очистки появляется только при наличии текста
-            <FontAwesomeIcon
-              icon={faTimesCircle}
-              className={styles.clearIcon}
-              onClick={() => clearInput('confirmPassword')}
-            />
-          )}
-          <FontAwesomeIcon // Иконка показать/скрыть пароль
-            icon={showConfirmPassword ? faEye : faEyeSlash}
-            className={styles.togglePasswordIcon}
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          />
-        </div>
-        {errors.confirmPassword && (
-          <span className={styles.form__error}>{errors.confirmPassword.message}</span>
+            {/* Email */}
+            <div className={styles.form__group}>
+              <label className={styles.form__label}>
+                <FontAwesomeIcon icon={faEnvelope} className={styles.labelIcon} />
+                Email:
+              </label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="email"
+                  className={styles.form__input}
+                  placeholder="Введите email.."
+                  {...register('email', { required: 'Введите email' })}
+                />
+                {/* Очистка email (только если есть текст) */}
+                {registerEmail && (
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={styles.clearIcon}
+                    onClick={() => setRegisterValue('email', '')}
+                  />
+                )}
+              </div>
+              {registerErrors.email && (
+                <p className={styles.form__error}>{registerErrors.email.message}</p>
+              )}
+            </div>
+
+            {/* Пароль */}
+            <div className={styles.form__group}>
+              <label className={styles.form__label}>
+                <FontAwesomeIcon icon={faLock} className={styles.labelIcon} />
+                Пароль:
+              </label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className={styles.form__input}
+                  placeholder="Введите пароль"
+                  {...register('password', { required: 'Введите пароль' })}
+                />
+                {/* Иконка скрыть/показать */}
+                <FontAwesomeIcon
+                  icon={showPassword ? faEyeSlash : faEye}
+                  className={styles.togglePasswordIcon}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              </div>
+              {registerErrors.password && (
+                <p className={styles.form__error}>{registerErrors.password.message}</p>
+              )}
+            </div>
+
+            {/* Кнопка */}
+            <button type="submit" className={styles.form__button}>
+              Зарегистрироваться
+            </button>
+          </form>
+        )}
+
+        {/* ====== Форма входа ====== */}
+        {activeTab === 'login' && (
+          <form className={styles.form} onSubmit={handleLoginSubmit(onLogin)}>
+            {/* Email */}
+            <div className={styles.form__group}>
+              <label className={styles.form__label}>
+                <FontAwesomeIcon icon={faEnvelope} className={styles.labelIcon} />
+                Email
+              </label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="email"
+                  className={styles.form__input}
+                  placeholder="Введите email"
+                  {...loginRegister('email', { required: 'Введите email' })}
+                />
+                {/* Очистка email (только если есть текст) */}
+                {loginEmail && (
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={styles.clearIcon}
+                    onClick={() => setLoginValue('email', '')}
+                  />
+                )}
+              </div>
+              {loginErrors.email && (
+                <p className={styles.form__error}>{loginErrors.email.message}</p>
+              )}
+            </div>
+
+            {/* Пароль */}
+            <div className={styles.form__group}>
+              <label className={styles.form__label}>
+                <FontAwesomeIcon icon={faLock} className={styles.labelIcon} />
+                Пароль
+              </label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className={styles.form__input}
+                  placeholder="Введите пароль"
+                  {...loginRegister('password', { required: 'Введите пароль' })}
+                />
+                {/* Иконка скрыть/показать */}
+                <FontAwesomeIcon
+                  icon={showPassword ? faEyeSlash : faEye}
+                  className={styles.togglePasswordIcon}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              </div>
+              {loginErrors.password && (
+                <p className={styles.form__error}>{loginErrors.password.message}</p>
+              )}
+            </div>
+
+            {/* Кнопка */}
+            <button type="submit" className={styles.form__button}>
+              Войти
+            </button>
+          </form>
         )}
       </div>
-
-      <button type="submit" className={styles.form__button}>
-        Зарегистрироваться
-      </button>
-    </form>
+    </div>
   );
 };
 
-export default RegistrationForm;
+export default AuthForm;

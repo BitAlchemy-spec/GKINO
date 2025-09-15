@@ -48,19 +48,17 @@
 html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
+  background-color: #1a1a2e;
 }
 
+/* Общие стили для body */
 body {
-  background: var(--bg-gradient);
-  background-attachment: fixed;
-  background-size: 200% 200%;
-  animation: moveBg 20s ease-in-out infinite alternate;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  text-rendering: optimizeLegibility;
-  color: var(--main-text-color);
+  font-family: var(--font-family-body);
+  background: var(--bg-gradien);
+  color: var(--text-light);
+  width: 80%;
+  margin: 0 auto;
+  padding: 0;
 }
 
 @keyframes moveBg {
