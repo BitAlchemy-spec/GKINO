@@ -1,27 +1,23 @@
 .auth {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 80px;
+  justify-content: center; /* влево */
+  align-items: center; /* вверх */
+  padding: 40px; /* отступы от краёв */
+  width: 100%;
+  min-height: 100vh;
 }
 
-/* ==== Карточка авторизации (обёртка для табов и формы) ==== */
+/* ==== Карточка авторизации ==== */
 .auth__card {
   background: var(--form-bg, #191919);
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  overflow: hidden; /* скругление и на табах, и на форме */
+  border-radius: 16px; /* аккуратные скругления */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* тень для аккуратности */
+  overflow: hidden;
   width: 100%;
-  max-width: 460px;
+  max-width: 420px; /* не растягивается слишком сильно */
   animation: fadeIn 0.6s ease-out;
-  transition: transform 0.3s ease;
 }
 
-.auth__card:hover {
-  transform: translateY(-4px);
-}
-
-/* Анимация появления карточки */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -33,7 +29,7 @@
   }
 }
 
-/* ==== Табы (переключатель Регистрация / Вход) ==== */
+/* ==== Табы ==== */
 .tabs {
   display: flex;
   background: #2c3e50;
@@ -63,14 +59,13 @@
 
 /* ==== Форма ==== */
 .form {
-  padding: 40px 32px;
+  padding: 32px 24px;
   text-align: center;
   opacity: 0;
   transform: translateY(10px);
   animation: fadeSlide 0.4s ease forwards;
 }
 
-/* Анимация плавного появления формы */
 @keyframes fadeSlide {
   to {
     opacity: 1;
@@ -79,14 +74,14 @@
 }
 
 .form__title {
-  font-size: 1.8rem;
-  margin-bottom: 24px;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
   color: var(--form-title-color, #fff);
   font-weight: 700;
 }
 
 .form__group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   text-align: left;
 }
 
@@ -94,40 +89,39 @@
 .form__label {
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--label-color, #e0e0e0);
-  margin-bottom: 8px;
-  font-weight: 600;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
-/* Иконка у лейбла (почта, замок и т.п.) */
 .labelIcon {
-  margin-right: 8px;
+  margin-right: 6px;
   color: var(--label-icon-color, #1e90ff);
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 
 /* ==== Поля ввода ==== */
 .inputWrapper {
-  position: relative; /* для позиционирования иконок внутри */
+  position: relative;
 }
 
 .form__input {
   width: 100%;
-  padding: 14px 18px;
+  padding: 12px 16px;
   border: 1px solid var(--input-border, #555);
   border-radius: 10px;
   background-color: var(--input-bg, #2c2c2c);
   color: var(--input-text, #fff);
   font-size: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  padding-right: 80px; /* запас под иконки справа */
+  padding-right: 70px;
 }
 
 .form__input:focus {
   outline: none;
   border-color: var(--button-bg, #1e90ff);
-  box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.3);
 }
 
 .form__input::placeholder {
@@ -139,60 +133,78 @@
 .clearIcon,
 .togglePasswordIcon {
   position: absolute;
-  top: 50%; /* центрирование по вертикали */
+  top: 50%;
   transform: translateY(-50%);
-  font-size: 1.1em;
+  font-size: 1em;
   color: var(--icon-color, #bbb);
   cursor: pointer;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* Иконка очистки (слева от иконки пароля) */
 .clearIcon {
   right: 10px;
 }
 
-/* Иконка показать/скрыть пароль (самая правая) */
 .togglePasswordIcon {
-  right: 10px; /* прижали к краю */
+  right: 10px;
 }
 
 .clearIcon:hover,
 .togglePasswordIcon:hover {
   color: var(--icon-hover, #1e90ff);
-  transform: translateY(-50%) scale(1.15);
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* ==== Ошибки ==== */
 .form__error {
   color: var(--error-color, #e74c3c);
-  font-size: 0.9em;
-  margin-top: 6px;
+  font-size: 0.85em;
+  margin-top: 5px;
   font-weight: 500;
 }
 
 /* ==== Кнопка ==== */
 .form__button {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   background-color: var(--button-bg, #1e90ff);
   color: #fff;
   border: none;
   border-radius: 10px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .form__button:hover {
   background-color: var(--button-hover-bg, #007bff);
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(30, 144, 255, 0.3);
+  box-shadow: 0 4px 10px rgba(30, 144, 255, 0.3);
 }
 
 .form__button:active {
   transform: translateY(0);
   box-shadow: none;
+}
+
+/* ==== Адаптив ==== */
+@media (max-width: 768px) {
+  .auth {
+    padding: 20px;
+  }
+
+  .auth__card {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .form {
+    padding: 24px 16px;
+  }
+
+  .form__title {
+    font-size: 1.4rem;
+  }
 }
