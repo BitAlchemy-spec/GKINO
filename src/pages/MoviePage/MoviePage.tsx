@@ -80,10 +80,21 @@ const MoviePage: React.FC = () => {
             <div className={styles['movie-page__tab-content']}>
               {activeTab === 'trailer' && (
                 <div className={styles['movie-page__video']}>
+                  {' '}
                   <ReactPlayer
+                    /* === Источник видео === */
                     src="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                    /* === Размеры === */
                     width={650}
                     height={400}
+                    /* === Автовоспроизведение и управление === */
+                    playing={false} // автостарт: true/false
+                    controls={true} // показывать встроенные контролы плеера
+                    loop={false} // зациклить
+                    muted={false} // включить беззвучно
+                    volume={0.8} // громкость (0–1)
+                    playbackRate={1} // скорость воспроизведения
+                    className="custom-player"
                   />
                 </div>
               )}
@@ -91,9 +102,19 @@ const MoviePage: React.FC = () => {
               {activeTab === 'videos' && (
                 <div className={styles['movie-page__videos']}>
                   <ReactPlayer
+                    /* === Источник видео === */
                     src="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                    /* === Размеры === */
                     width={650}
                     height={400}
+                    /* === Автовоспроизведение и управление === */
+                    playing={false} // автостарт: true/false
+                    controls={true} // показывать встроенные контролы плеера
+                    loop={false} // зациклить
+                    muted={false} // включить беззвучно
+                    volume={0.8} // громкость (0–1)
+                    playbackRate={1} // скорость воспроизведения
+                    className="custom-player"
                   />
                 </div>
               )}
