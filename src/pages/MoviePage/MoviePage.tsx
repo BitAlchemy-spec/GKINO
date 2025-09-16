@@ -1,13 +1,14 @@
 // src/pages/MoviePage/MoviePage.tsx
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import { movies } from './../../data/movies';
 import styles from './MoviePage.module.css';
 
 const MoviePage: React.FC = () => {
   const { id } = useParams();
   const movie = movies.find((m) => m.id === Number(id));
-  const [activeTab, setActiveTab] = useState<'trailer' | 'stills'>('trailer');
+  const [activeTab, setActiveTab] = useState<'trailer' | 'videos'>('trailer');
 
   if (!movie) {
     return <p className={styles['movie-page__not-found']}>Фильм не найдено</p>;
@@ -27,6 +28,7 @@ const MoviePage: React.FC = () => {
             <h1 className={styles['movie-page__title']}>{movie.title}</h1>
           </header>
 
+          {/* Метаданные */}
           <dl className={styles['movie-page__meta']}>
             <div className={styles['movie-page__meta-item']}>
               <dt>Год:</dt>
@@ -52,7 +54,7 @@ const MoviePage: React.FC = () => {
 
           {/* ==== Медиа-блок ==== */}
           <section className={styles['movie-page__media']}>
-            <nav className={styles['movie-page__tabs']} aria-label="Перемикач медіа">
+            <nav className={styles['movie-page__tabs']} aria-label="Переключатель медиа">
               <button
                 type="button"
                 className={`${styles['movie-page__tab']} ${
@@ -66,10 +68,10 @@ const MoviePage: React.FC = () => {
               <button
                 type="button"
                 className={`${styles['movie-page__tab']} ${
-                  activeTab === 'stills' ? styles['movie-page__tab--active'] : ''
+                  activeTab === 'videos' ? styles['movie-page__tab--active'] : ''
                 }`}
-                onClick={() => setActiveTab('stills')}
-                aria-pressed={activeTab === 'stills'}
+                onClick={() => setActiveTab('videos')}
+                aria-pressed={activeTab === 'videos'}
               >
                 Видео
               </button>
@@ -78,21 +80,17 @@ const MoviePage: React.FC = () => {
             <div className={styles['movie-page__tab-content']}>
               {activeTab === 'trailer' && (
                 <div className={styles['movie-page__video']}>
-                  <iframe
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title={`${movie.title} трейлер`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <ReactPlayer url={movie.trailerUrl} controls width="100%" height="400px" />
                 </div>
               )}
 
-              {activeTab === 'stills' && (
-                <div className={styles['movie-page__stills']}>
-                  <img src={movie.img} alt={`${movie.title} кадр 1`} />
-                  <img src={movie.img} alt={`${movie.title} кадр 2`} />
-                  <img src={movie.img} alt={`${movie.title} кадр 3`} />
+              {activeTab === 'videos' && (
+                <div className={styles['movie-page__videos']}>
+                  {movie.videos.map((videoUrl, index) => (
+                    <div key={index} className={styles['movie-page__video']}>
+                      <ReactPlayer url={videoUrl} controls width="100%" height="400px" />
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
