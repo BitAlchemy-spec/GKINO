@@ -6,34 +6,28 @@ import { lazy } from 'react';
 const Root = lazy(() => import('./pages/Root/Root'));
 const RegistrationForm = lazy(() => import('./pages/RegistrationForm/RegistrationForm'));
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
+const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'));
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    //  errorElement: <ErrorPage />,
+    // errorElement: <ErrorPage />,
     children: [
       {
-        index: true, // маршрут по умолчанию для "/"
+        index: true,
         element: <HomePage />,
       },
       {
         path: 'login',
         element: <RegistrationForm />,
       },
+      {
+        path: 'movies/:id',
+        element: <MoviePage />,
+      },
     ],
   },
-  // Пример отдельного layout (например, для админки):
-  // {
-  //   path: '/admin',
-  //   element: <AdminLayout />,
-  //   children: [
-  //     {
-  //       path: 'dashboard',
-  //       element: <AdminDashboard />,
-  //     },
-  //   ],
-  // },
 ]);
 
 export default router;
