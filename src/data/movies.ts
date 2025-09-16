@@ -9,8 +9,6 @@ export type Movie = {
   director: string;
   actors: string[];
   genres: string[];
-  trailerUrl: string;
-  videos: string[];
 };
 
 export const movies: Movie[] = [
@@ -24,11 +22,6 @@ export const movies: Movie[] = [
     director: 'Джон Смит',
     actors: ['Актер '],
     genres: ['Приключения', 'Фэнтези'],
-    trailerUrl: 'https://www.youtube.com/watch?v=t4uIBn1oU6w',
-    videos: [
-      'https://www.youtube.com/watch?v=ysz5S6PUM-U',
-      'https://www.youtube.com/watch?v=jNgP6d9HraI',
-    ],
   },
   {
     id: 2,
@@ -40,7 +33,5 @@ export const movies: Movie[] = [
     director: 'Анна Иваненко',
     actors: ['Актер 3', 'Актер 4'],
     genres: ['Детектив', 'Драма'],
-    trailerUrl: 'https://www.youtube.com/watch?v=kXYiU_JCYtU',
-    videos: ['https://www.youtube.com/watch?v=ScMzIvxBSi4'],
   },
 ];

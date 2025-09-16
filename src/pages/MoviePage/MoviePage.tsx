@@ -80,17 +80,21 @@ const MoviePage: React.FC = () => {
             <div className={styles['movie-page__tab-content']}>
               {activeTab === 'trailer' && (
                 <div className={styles['movie-page__video']}>
-                  <ReactPlayer url={movie.trailerUrl} controls width="100%" height="400px" />
+                  <ReactPlayer
+                    src="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                    width={650}
+                    height={400}
+                  />
                 </div>
               )}
 
               {activeTab === 'videos' && (
                 <div className={styles['movie-page__videos']}>
-                  {movie.videos.map((videoUrl, index) => (
-                    <div key={index} className={styles['movie-page__video']}>
-                      <ReactPlayer url={videoUrl} controls width="100%" height="400px" />
-                    </div>
-                  ))}
+                  <ReactPlayer
+                    src="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                    width={650}
+                    height={400}
+                  />
                 </div>
               )}
             </div>
