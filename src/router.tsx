@@ -3,9 +3,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import { lazy } from 'react';
 
 // Lazy-загрузка компонентов (код-сплиттинг)
-const Root = lazy(() => import('./pages/Root/Root'));
-const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
-const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'));
+const Root = lazy(() => import('./pages/root/Root'));
+const HomePage = lazy(() => import('./pages/home/HomePage'));
+const MoviePage = lazy(() => import('./pages/movie/MoviePage'));
 
 const router = createBrowserRouter([
   {
