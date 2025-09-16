@@ -202,9 +202,6 @@ const HomePage: React.FC = () => {
           </header>
 
           <div className={styles.searchWrap}>
-            <label htmlFor="movie-search" className="visually-hidden">
-              Поиск фильмов
-            </label>
             <input
               id="movie-search"
               type="search"
