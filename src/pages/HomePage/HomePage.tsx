@@ -231,7 +231,7 @@ const HomePage: React.FC = () => {
                 }`}
                 onClick={() => handleCategoryChange(null)}
               >
-                Главная
+                Все категории
               </li>
               {allCategories.map((category) => (
                 <li
@@ -271,10 +271,11 @@ const HomePage: React.FC = () => {
           />
 
           <footer className={styles.footer}>
-            <section className={styles.footer__policy} aria-label="Политика конфиденциальности">
-              <h4 className={styles.footer__title}>Политика конфиденциальности</h4>
+            <section className={styles.footer__policy} aria-label="Про нас">
+              <h4 className={styles.footer__title}>Про нас</h4>
               <p className={styles.footer__text}>
-                Администратор сайта обязуется сохранять вашу конфиденциальность.
+                Наша платформа предлагает просмотр фильмов по подписке, чтобы вы могли наслаждаться
+                последними новинками без рекламы, в хорошем качестве.
               </p>
             </section>
           </footer>

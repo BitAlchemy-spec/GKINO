@@ -1,6 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import styles from './Root.module.css';
 
 const Root = () => {
@@ -11,8 +11,8 @@ const Root = () => {
           <Link to="./">gkino</Link>
         </h1>
         <nav className={styles.root__nav}>
-          <Link to="/login" className={styles.userButton} title="login">
-            <FontAwesomeIcon icon={faUser} className={styles.icon} />
+          <Link to="./" className={styles.userButton} title="Главная">
+            <FontAwesomeIcon icon={faHome} className={styles.icon} />
           </Link>
         </nav>
       </header>
