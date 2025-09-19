@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import { movies } from './../../data/movies';
+import { movies } from '../../data/movies';
 import styles from './MoviePage.module.css';
 
 const MoviePage: React.FC = () => {
