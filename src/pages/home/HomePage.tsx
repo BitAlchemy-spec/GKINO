@@ -1,9 +1,9 @@
+// src/pages/HomePage/HomePage.tsx
 import React, { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import styles from './HomePage.module.css';
 
+/* Types */
 type Movie = {
   id: number;
   title: string;
@@ -11,70 +11,22 @@ type Movie = {
   category: string;
 };
 
+/* Movies */
 const movies: Movie[] = [
-  {
-    id: 1,
-    title: 'Невероятное путешествие',
-    img: 'https://picsum.photos/seed/movie1/400/600',
-    category: 'Приключения',
-  },
-  {
-    id: 2,
-    title: 'Тайна города',
-    img: 'https://picsum.photos/seed/movie2/400/600',
-    category: 'Детектив',
-  },
-  {
-    id: 3,
-    title: 'Космическая одиссея',
-    img: 'https://picsum.photos/seed/movie3/400/600',
-    category: 'Фантастика',
-  },
-  {
-    id: 4,
-    title: 'Затерянный мир',
-    img: 'https://picsum.photos/seed/movie4/400/600',
-    category: 'Приключения',
-  },
-  {
-    id: 5,
-    title: 'Империя роботов',
-    img: 'https://picsum.photos/seed/movie5/400/600',
-    category: 'Фантастика',
-  },
-  {
-    id: 6,
-    title: 'Ограбление века',
-    img: 'https://picsum.photos/seed/movie6/400/600',
-    category: 'Экшн',
-  },
-  {
-    id: 7,
-    title: 'Древние проклятия',
-    img: 'https://picsum.photos/seed/movie7/400/600',
-    category: 'Детектив',
-  },
-  {
-    id: 8,
-    title: 'Путешествие к центру Земли',
-    img: 'https://picsum.photos/seed/movie8/400/600',
-    category: 'Приключения',
-  },
-  {
-    id: 9,
-    title: 'Звездный рубеж',
-    img: 'https://picsum.photos/seed/movie9/400/600',
-    category: 'Фантастика',
-  },
-  {
-    id: 10,
-    title: 'Гонка на выживание',
-    img: 'https://picsum.photos/seed/movie10/400/600',
-    category: 'Экшн',
-  },
+  { id: 1, title: 'Невероятное путешествие', img: 'https://picsum.photos/seed/movie1/400/600', category: 'Приключения' },
+  { id: 2, title: 'Тайна города', img: 'https://picsum.photos/seed/movie2/400/600', category: 'Детектив' },
+  { id: 3, title: 'Космическая одиссея', img: 'https://picsum.photos/seed/movie3/400/600', category: 'Фантастика' },
+  { id: 4, title: 'Затерянный мир', img: 'https://picsum.photos/seed/movie4/400/600', category: 'Приключения' },
+  { id: 5, title: 'Империя роботов', img: 'https://picsum.photos/seed/movie5/400/600', category: 'Фантастика' },
+  { id: 6, title: 'Ограбление века', img: 'https://picsum.photos/seed/movie6/400/600', category: 'Экшн' },
+  { id: 7, title: 'Древние проклятия', img: 'https://picsum.photos/seed/movie7/400/600', category: 'Детектив' },
+  { id: 8, title: 'Путешествие к центру Земли', img: 'https://picsum.photos/seed/movie8/400/600', category: 'Приключения' },
+  { id: 9, title: 'Звездный рубеж', img: 'https://picsum.photos/seed/movie9/400/600', category: 'Фантастика' },
+  { id: 10, title: 'Гонка на выживание', img: 'https://picsum.photos/seed/movie10/400/600', category: 'Экшн' },
 ];
 
-const allCategories: string[] = [
+/* Categories */
+const allCategories = [
   'Приключения',
   'Фантастика',
   'Комедия',
@@ -85,68 +37,63 @@ const allCategories: string[] = [
   'Детектив',
 ];
 
-// ==== Карточка фильма ====
-const MovieCard: React.FC<{ movie: Movie; onWatch: (id: number) => void }> = React.memo(
-  ({ movie, onWatch }) => (
-    <li className={styles.card}>
-      <article aria-labelledby={`movie-${movie.id}`}>
-        <div className={styles.card__imgWrap}>
-          <img src={movie.img} alt={movie.title} className={styles.card__img} loading="lazy" />
-        </div>
-        <div className={styles.card__body}>
-          <h3 id={`movie-${movie.id}`} className={styles.card__title}>
-            {movie.title}
-          </h3>
-          <button className={styles.card__btn} onClick={() => onWatch(movie.id)}>
-            Посмотреть
-          </button>
-        </div>
-      </article>
-    </li>
-  ),
-);
+/* MovieCard */
+const MovieCard = React.memo(({ movie, onWatch }: { movie: Movie; onWatch: (id: number) => void }) => (
+  <li className={styles.card}>
+    <article>
+      <div className={styles.card__imgWrap}>
+        <img src={movie.img} alt={movie.title} className={styles.card__img} />
+      </div>
 
-// ==== Пагинация ====
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
+      <div className={styles.card__body}>
+        <h3 className={styles.card__title}>{movie.title}</h3>
+        <button className={styles.card__btn} onClick={() => onWatch(movie.id)}>
+          Посмотреть
+        </button>
+      </div>
+    </article>
+  </li>
+));
+MovieCard.displayName = 'MovieCard';
 
-const Pagination: React.FC<PaginationProps> = React.memo(
-  ({ currentPage, totalPages, onPageChange }) => {
+/* Pagination */
+const Pagination = React.memo(
+  ({ currentPage, totalPages, onChange }: { currentPage: number; totalPages: number; onChange: (p: number) => void }) => {
     if (totalPages <= 1) return null;
-    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (
-      <nav aria-label="Навигация по страницам" className={styles.pagination}>
+      <nav className={styles.pagination}>
         <ul className={styles.pagination__list}>
           <li>
             <button
               className={styles.pagination__button}
-              onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
+              onClick={() => onChange(currentPage - 1)}
             >
               &laquo;
             </button>
           </li>
-          {pageNumbers.map((num) => (
+
+          {pages.map((num) => (
             <li key={num}>
               <button
-                onClick={() => onPageChange(num)}
+                onClick={() => onChange(num)}
                 className={`${styles.pagination__button} ${
-                  num === currentPage ? styles['pagination__button--active'] : ''
+                  currentPage === num ? styles['pagination__button--active'] : ''
                 }`}
               >
                 {num}
               </button>
             </li>
           ))}
+
           <li>
             <button
               className={styles.pagination__button}
-              onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
+              onClick={() => onChange(currentPage + 1)}
             >
               &raquo;
             </button>
@@ -156,126 +103,106 @@ const Pagination: React.FC<PaginationProps> = React.memo(
     );
   },
 );
+Pagination.displayName = 'Pagination';
 
-// ==== Главная страница ====
-const HomePage: React.FC = () => {
+/* HomePage */
+const HomePage = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [movieSearch, setMovieSearch] = useState('');
+
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+
   const itemsPerPage = 8;
 
   const filteredMovies = useMemo(() => {
-    let result = movies;
-    if (selectedCategory) result = result.filter((m) => m.category === selectedCategory);
-    if (movieSearch.trim()) {
-      result = result.filter((m) => m.title.toLowerCase().includes(movieSearch.toLowerCase()));
-    }
-    return result;
-  }, [selectedCategory, movieSearch]);
+    return movies.filter((m) => {
+      const matchCategory = category ? m.category === category : true;
+      const matchSearch = search ? m.title.toLowerCase().includes(search.toLowerCase()) : true;
+      return matchCategory && matchSearch;
+    });
+  }, [search, category]);
 
   const totalPages = Math.ceil(filteredMovies.length / itemsPerPage);
-  const paginatedMovies = filteredMovies.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+
+  const paginated = useMemo(() => {
+    const start = (page - 1) * itemsPerPage;
+    return filteredMovies.slice(start, start + itemsPerPage);
+  }, [filteredMovies, page]);
 
   const handleWatch = useCallback((id: number) => navigate(`/movies/${id}`), [navigate]);
-  const handlePageChange = useCallback((page: number) => setCurrentPage(page), []);
-  const handleCategoryChange = useCallback((category: string | null) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  }, []);
-  const handleSearchChange = useCallback((value: string) => {
-    setMovieSearch(value);
-    setSelectedCategory(null);
-    setCurrentPage(1);
-  }, []);
 
   return (
     <div className={styles.app}>
       <div className={styles.container}>
-        {/* ==== Сайдбар ==== */}
+        {/* SIDEBAR */}
         <aside className={styles.sidebar}>
-          <header>
-            <h1 className={styles.logo}>Поиск</h1>
-          </header>
+          <h1 className={styles.logo}>Поиск фильмов</h1>
 
+          {/* Search */}
           <div className={styles.searchWrap}>
             <input
-              id="movie-search"
               type="search"
-              placeholder="Введите текст"
+              placeholder="Введите текст..."
               className={styles.searchInput}
-              value={movieSearch}
-              onChange={(e) => handleSearchChange(e.target.value)}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCategory(null);
+                setPage(1);
+              }}
             />
-            {movieSearch && (
-              <button
-                type="button"
-                className={styles.clearBtn}
-                onClick={() => handleSearchChange('')}
-                aria-label="Очистить поиск"
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            )}
           </div>
 
-          <nav aria-label="Категории">
-            <h2 className={styles.sidebar__title}>Категории</h2>
+          {/* Categories */}
+          <nav>
+
             <ul className={styles.sidebar__list}>
               <li
-                className={`${styles.sidebar__item} ${
-                  selectedCategory === null ? styles['sidebar__item--active'] : ''
-                }`}
-                onClick={() => handleCategoryChange(null)}
+                className={`${styles.sidebar__item} ${category === null ? styles['sidebar__item--active'] : ''}`}
+                onClick={() => {
+                  setCategory(null);
+                  setPage(1);
+                }}
               >
                 Все категории
               </li>
-              {allCategories.map((category) => (
+
+              {allCategories.map((cat) => (
                 <li
-                  key={category}
-                  className={`${styles.sidebar__item} ${
-                    selectedCategory === category ? styles['sidebar__item--active'] : ''
-                  }`}
-                  onClick={() => handleCategoryChange(category)}
+                  key={cat}
+                  className={`${styles.sidebar__item} ${category === cat ? styles['sidebar__item--active'] : ''}`}
+                  onClick={() => {
+                    setCategory(cat);
+                    setPage(1);
+                  }}
                 >
-                  {category}
+                  {cat}
                 </li>
               ))}
             </ul>
           </nav>
         </aside>
 
-        {/* ==== Контент ==== */}
+        {/* MAIN */}
         <main className={styles.homepage}>
-          <section aria-label="Список фильмов">
+          <section>
             <ul className={styles.grid}>
-              {paginatedMovies.length > 0 ? (
-                paginatedMovies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} onWatch={handleWatch} />
-                ))
+              {paginated.length ? (
+                paginated.map((movie) => <MovieCard key={movie.id} movie={movie} onWatch={handleWatch} />)
               ) : (
-                <li>
-                  <p className={styles.noResults}>Фильмы не найдены</p>
-                </li>
+                <p className={styles.noResults}>Фильмы не найдены</p>
               )}
             </ul>
           </section>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+          <Pagination currentPage={page} totalPages={totalPages} onChange={setPage} />
 
           <footer className={styles.footer}>
-            <section className={styles.footer__policy} aria-label="Про нас">
+            <section className={styles.footer__policy}>
               <h4 className={styles.footer__title}>Про нас</h4>
               <p className={styles.footer__text}>
-                Наша платформа предлагает просмотр фильмов по подписке, чтобы вы могли наслаждаться
-                последними новинками без рекламы, в хорошем качестве.
+                Наша платформа предлагает просмотр фильмов без рекламы, в хорошем качестве и с удобным подбором по категориям.
               </p>
             </section>
           </footer>
@@ -286,3 +213,4 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
+
