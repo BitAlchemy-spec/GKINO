@@ -1,19 +1,31 @@
-import { Outlet, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
-import styles from './Root.module.css';
+import { Outlet, NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import styles from "./Root.module.css";
 
 const Root = () => {
   return (
     <div className={styles.root}>
       <header className={styles.root__header}>
         <h1 className={styles.root__title}>
-          <Link to="./">gkino</Link>
+          <NavLink to="/" aria-label="Главная страница">
+            gkino
+          </NavLink>
         </h1>
-        <nav className={styles.root__nav}>
-          <Link to="./" className={styles.userButton} title="Главная">
+
+        <nav className={styles.root__nav} aria-label="Основная навигация">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? `${styles.userButton} ${styles.userButton_active}`
+                : styles.userButton
+            }
+            title="Главная"
+            aria-label="Главная"
+          >
             <FontAwesomeIcon icon={faHome} className={styles.icon} />
-          </Link>
+          </NavLink>
         </nav>
       </header>
 
@@ -25,3 +37,4 @@ const Root = () => {
 };
 
 export default Root;
+

@@ -1,16 +1,24 @@
 :root {
   /* Colors */
   --text-light: #e5e9f0;
-  --primary-link-color: #1e90ff;
-  --primary-link-hover: #63b3ff;
+  --primary-link-color: #3aa8ff;
+  --primary-link-hover: #75c4ff;
 
   /* Shadows */
-  --shadow-dark: 0 8px 20px rgba(0, 0, 0, 0.55);
-  --text-shadow-color: rgba(0, 0, 0, 0.6);
-  --text-shadow-hover: rgba(30, 144, 255, 0.9);
+  --shadow-dark: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --text-shadow-color: rgba(0, 0, 0, 0.55);
+  --text-shadow-hover: rgba(58, 168, 255, 0.95);
 
   /* Shapes */
   --button-radius: 50%;
+
+  /* Effects */
+  --transition-fast: 0.25s ease;
+  --transition-medium: 0.45s ease;
+
+  /* Backgrounds */
+  --bg-gradient: radial-gradient(circle at 20% 20%, #0a0f1c, #000);
+  --header-bg: rgba(20, 27, 38, 0.85);
 }
 
 /* === Root layout === */
@@ -18,10 +26,12 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: var(--bg-gradient, #000);
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg-gradient);
   color: var(--text-light);
-  line-height: 1.6;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* === Header === */
@@ -29,68 +39,92 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 40px;
-  background: var(--header-bg, #2c3e50);
-  backdrop-filter: blur(10px);
+  padding: 18px 48px;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px) saturate(140%);
   box-shadow: var(--shadow-dark);
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* === Title === */
 .root__title {
-  perspective: 1000px;
+  perspective: 1200px;
   display: inline-block;
 }
 
 .root__title a {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-size: 2.4rem;
+  font-weight: 850;
+  letter-spacing: 0.5px;
   color: var(--primary-link-color);
-  text-shadow: 3px 3px 8px var(--text-shadow-color), -1px -1px 2px rgba(255, 255, 255, 0.2);
   text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.4s ease, text-shadow 0.4s ease, transform 0.4s ease;
   display: inline-block;
+  text-shadow:
+    3px 3px 8px var(--text-shadow-color),
+    -1px -1px 2px rgba(255, 255, 255, 0.15);
+  transition:
+    color var(--transition-medium),
+    text-shadow var(--transition-medium),
+    transform var(--transition-medium);
 }
 
 .root__title a:hover {
   color: var(--primary-link-hover);
-  text-shadow: 0 0 20px var(--text-shadow-hover), 0 0 8px var(--text-shadow-hover);
-  transform: translateZ(10px) rotateX(5deg) rotateY(-5deg);
+  text-shadow:
+    0 0 22px var(--text-shadow-hover),
+    0 0 8px var(--text-shadow-hover);
+  transform: translateZ(14px) rotateX(8deg) rotateY(-6deg);
 }
 
 /* === Navigation === */
 .root__nav {
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
-/* === User button (link) === */
+/* === User button === */
 .userButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+
   border-radius: var(--button-radius);
-  background: linear-gradient(135deg, #3498db, #2c3e50);
+  background: linear-gradient(135deg, #3aa8ff, #18222f);
   color: var(--text-light);
+
   text-decoration: none;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 rgba(255, 255, 255, 0);
+
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
 }
 
 .userButton:hover {
-  background: linear-gradient(135deg, #5dade2, #34495e);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), 0 0 12px rgba(85, 172, 238, 0.6);
+  background: linear-gradient(135deg, #63c1ff, #2d3b4d);
+  transform: translateY(-3px) scale(1.07);
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.55),
+    0 0 14px rgba(74, 177, 255, 0.7);
 }
 
 .userButton:active {
-  transform: scale(0.95);
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  transform: scale(0.92);
+  box-shadow:
+    inset 0 0 8px rgba(0, 0, 0, 0.45),
+    inset 0 0 4px rgba(255, 255, 255, 0.1);
 }
+
