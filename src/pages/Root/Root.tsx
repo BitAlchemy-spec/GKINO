@@ -9,7 +9,7 @@ const Root = () => {
       <header className={styles.root__header}>
         <h1 className={styles.root__title}>
           <NavLink to="/" aria-label="Главная страница">
-            gkino
+            GKINO
           </NavLink>
         </h1>
 
