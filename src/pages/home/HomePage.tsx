@@ -1,5 +1,5 @@
 // src/pages/HomePage/HomePage.tsx
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 
@@ -37,73 +37,54 @@ const allCategories = [
   'Детектив',
 ];
 
-/* MovieCard */
-const MovieCard = React.memo(({ movie, onWatch }: { movie: Movie; onWatch: (id: number) => void }) => (
-  <li className={styles.card}>
-    <article>
-      <div className={styles.card__imgWrap}>
-        <img src={movie.img} alt={movie.title} className={styles.card__img} />
-      </div>
+/* Movie Card */
+const MovieCard = React.memo(
+  ({ movie, onWatch }: { movie: Movie; onWatch: (id: number) => void }) => (
+    <li className={styles.card}>
+      <article>
+        <div className={styles.card__imgWrap}>
+          <img src={movie.img} alt={movie.title} className={styles.card__img} />
+        </div>
 
-      <div className={styles.card__body}>
-        <h3 className={styles.card__title}>{movie.title}</h3>
-        <button className={styles.card__btn} onClick={() => onWatch(movie.id)}>
-          Посмотреть
-        </button>
-      </div>
-    </article>
-  </li>
-));
-MovieCard.displayName = 'MovieCard';
+        <div className={styles.card__body}>
+          <h3 className={styles.card__title}>{movie.title}</h3>
+          <button className={styles.card__btn} onClick={() => onWatch(movie.id)}>
+            Смотреть
+          </button>
+        </div>
+      </article>
+    </li>
+  )
+);
 
 /* Pagination */
 const Pagination = React.memo(
   ({ currentPage, totalPages, onChange }: { currentPage: number; totalPages: number; onChange: (p: number) => void }) => {
     if (totalPages <= 1) return null;
 
-    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-
     return (
       <nav className={styles.pagination}>
-        <ul className={styles.pagination__list}>
-          <li>
-            <button
-              className={styles.pagination__button}
-              disabled={currentPage === 1}
-              onClick={() => onChange(currentPage - 1)}
-            >
-              &laquo;
-            </button>
-          </li>
+        <button disabled={currentPage === 1} onClick={() => onChange(currentPage - 1)}>
+          &laquo;
+        </button>
 
-          {pages.map((num) => (
-            <li key={num}>
-              <button
-                onClick={() => onChange(num)}
-                className={`${styles.pagination__button} ${
-                  currentPage === num ? styles['pagination__button--active'] : ''
-                }`}
-              >
-                {num}
-              </button>
-            </li>
-          ))}
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <button
+            key={p}
+            className={currentPage === p ? styles['pagination__button--active'] : ''}
+            onClick={() => onChange(p)}
+          >
+            {p}
+          </button>
+        ))}
 
-          <li>
-            <button
-              className={styles.pagination__button}
-              disabled={currentPage === totalPages}
-              onClick={() => onChange(currentPage + 1)}
-            >
-              &raquo;
-            </button>
-          </li>
-        </ul>
+        <button disabled={currentPage === totalPages} onClick={() => onChange(currentPage + 1)}>
+          &raquo;
+        </button>
       </nav>
     );
-  },
+  }
 );
-Pagination.displayName = 'Pagination';
 
 /* HomePage */
 const HomePage = () => {
@@ -115,94 +96,95 @@ const HomePage = () => {
 
   const itemsPerPage = 8;
 
+  /* === Фильтрация === */
   const filteredMovies = useMemo(() => {
     return movies.filter((m) => {
-      const matchCategory = category ? m.category === category : true;
-      const matchSearch = search ? m.title.toLowerCase().includes(search.toLowerCase()) : true;
-      return matchCategory && matchSearch;
+      const byCategory = category ? m.category === category : true;
+      const bySearch = search ? m.title.toLowerCase().includes(search.toLowerCase().trim()) : true;
+      return byCategory && bySearch;
     });
   }, [search, category]);
 
-  const totalPages = Math.ceil(filteredMovies.length / itemsPerPage);
+  /* === Пагинация === */
+  const totalPages = Math.ceil(filteredMovies.length / itemsPerPage) || 1;
 
   const paginated = useMemo(() => {
     const start = (page - 1) * itemsPerPage;
     return filteredMovies.slice(start, start + itemsPerPage);
   }, [filteredMovies, page]);
 
+  /* === Watch handler === */
   const handleWatch = useCallback((id: number) => navigate(`/movies/${id}`), [navigate]);
 
   return (
     <div className={styles.app}>
       <div className={styles.container}>
+        
         {/* SIDEBAR */}
         <aside className={styles.sidebar}>
           <h1 className={styles.logo}>Поиск фильмов</h1>
 
-          {/* Search */}
-          <div className={styles.searchWrap}>
-            <input
-              type="search"
-              placeholder="Введите текст..."
-              className={styles.searchInput}
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+          {/* Поиск */}
+          <input
+            type="search"
+            placeholder="Введите название..."
+            className={styles.searchInput}
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+
+          {/* Категории */}
+          <ul className={styles.sidebar__list}>
+            <li
+              className={`${styles.sidebar__item} ${category === null ? styles['sidebar__item--active'] : ''}`}
+              onClick={() => {
                 setCategory(null);
                 setPage(1);
               }}
-            />
-          </div>
+            >
+              Все категории
+            </li>
 
-          {/* Categories */}
-          <nav>
-
-            <ul className={styles.sidebar__list}>
+            {allCategories.map((cat) => (
               <li
-                className={`${styles.sidebar__item} ${category === null ? styles['sidebar__item--active'] : ''}`}
+                key={cat}
+                className={`${styles.sidebar__item} ${category === cat ? styles['sidebar__item--active'] : ''}`}
                 onClick={() => {
-                  setCategory(null);
+                  setCategory(cat);
                   setPage(1);
                 }}
               >
-                Все категории
+                {cat}
               </li>
-
-              {allCategories.map((cat) => (
-                <li
-                  key={cat}
-                  className={`${styles.sidebar__item} ${category === cat ? styles['sidebar__item--active'] : ''}`}
-                  onClick={() => {
-                    setCategory(cat);
-                    setPage(1);
-                  }}
-                >
-                  {cat}
-                </li>
-              ))}
-            </ul>
-          </nav>
+            ))}
+          </ul>
         </aside>
 
         {/* MAIN */}
         <main className={styles.homepage}>
           <section>
-            <ul className={styles.grid}>
-              {paginated.length ? (
-                paginated.map((movie) => <MovieCard key={movie.id} movie={movie} onWatch={handleWatch} />)
-              ) : (
-                <p className={styles.noResults}>Фильмы не найдены</p>
-              )}
-            </ul>
+            {/* Если фильмов нет → сообщение */}
+            {paginated.length === 0 ? (
+              <p className={styles.noResults}>Фильмы не найдены</p>
+            ) : (
+              <ul className={styles.grid}>
+                {paginated.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} onWatch={handleWatch} />
+                ))}
+              </ul>
+            )}
           </section>
 
           <Pagination currentPage={page} totalPages={totalPages} onChange={setPage} />
 
           <footer className={styles.footer}>
             <section className={styles.footer__policy}>
-              <h4 className={styles.footer__title}>Про нас</h4>
+              <h4 className={styles.footer__title}>О нас</h4>
               <p className={styles.footer__text}>
-                Наша платформа предлагает просмотр фильмов без рекламы, в хорошем качестве и с удобным подбором по категориям.
+                Удобная платформа для просмотра фильмов без рекламы и лишнего шума.
               </p>
             </section>
           </footer>
@@ -213,4 +195,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
 

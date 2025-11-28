@@ -1,26 +1,17 @@
 // src/pages/MoviePage/MoviePage.tsx
-import React, { useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useCallback } from 'react';
 import ReactPlayer from 'react-player';
+import { useParams } from 'react-router-dom';
 import { movies } from '../../data/movies';
 import styles from './MoviePage.module.css';
 
 const MoviePage: React.FC = () => {
   const { id } = useParams();
-  const movie = movies.find((m) => m.id === Number(id));
-
-  const [activeTab, setActiveTab] = useState<'trailer' | 'videos'>('trailer');
-
-  if (!movie) {
-    return <p className={styles['movie-page__not-found']}>Фильм не найдено</p>;
-  }
-
-  /** Рендер видеоплеера — чтобы не дублировать код */
   const renderPlayer = useCallback(
     () => (
       <ReactPlayer
         src="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-        width={650}
+        width={100 + '%'}
         height={400}
         controls
         playing={false}
@@ -33,11 +24,17 @@ const MoviePage: React.FC = () => {
     []
   );
 
+  const movie = movies.find((m) => m.id === Number(id));
+
+  if (!movie) {
+    return <p className={styles['movie-page__not-found']}>Фильм не найдено</p>;
+  }
+
   return (
     <main className={styles['movie-page']}>
       <article className={styles['movie-page__card']}>
 
-        {/* ==== Постер ==== */}
+        {/* Постер */}
         <figure className={styles['movie-page__poster-wrapper']}>
           <img
             src={movie.img}
@@ -47,7 +44,7 @@ const MoviePage: React.FC = () => {
           />
         </figure>
 
-        {/* ==== Инфо-блок ==== */}
+        {/* Информация */}
         <section className={styles['movie-page__info']}>
           <header>
             <h1 className={styles['movie-page__title']}>{movie.title}</h1>
@@ -67,62 +64,29 @@ const MoviePage: React.FC = () => {
             </div>
 
             <div className={styles['movie-page__meta-item']}>
-              <dt>Режисер:</dt>
+              <dt>Режиссёр:</dt>
               <dd>{movie.director}</dd>
             </div>
 
             <div className={styles['movie-page__meta-item']}>
-              <dt>Актори:</dt>
+              <dt>Акторы:</dt>
               <dd>{movie.actors.join(', ')}</dd>
             </div>
 
             <div className={styles['movie-page__meta-item']}>
-              <dt>Жанри:</dt>
+              <dt>Жанры:</dt>
               <dd>{movie.genres.join(', ')}</dd>
             </div>
 
           </dl>
 
-          {/* ==== Медиа-блок ==== */}
+          {/* Видео */}
           <section className={styles['movie-page__media']}>
-
-            {/* Табы */}
-            <nav className={styles['movie-page__tabs']} aria-label="Переключатель медиа">
-              <button
-                type="button"
-                className={`${styles['movie-page__tab']} ${
-                  activeTab === 'trailer' ? styles['movie-page__tab--active'] : ''
-                }`}
-                onClick={() => setActiveTab('trailer')}
-                aria-pressed={activeTab === 'trailer'}
-              >
-                Трейлер
-              </button>
-
-              <button
-                type="button"
-                className={`${styles['movie-page__tab']} ${
-                  activeTab === 'videos' ? styles['movie-page__tab--active'] : ''
-                }`}
-                onClick={() => setActiveTab('videos')}
-                aria-pressed={activeTab === 'videos'}
-              >
-                Видео
-              </button>
-            </nav>
-
-            {/* Контент табов */}
-            <div className={styles['movie-page__tab-content']}>
-              {activeTab === 'trailer' && (
-                <div className={styles['movie-page__video']}>{renderPlayer()}</div>
-              )}
-
-              {activeTab === 'videos' && (
-                <div className={styles['movie-page__videos']}>{renderPlayer()}</div>
-              )}
+            <div className={styles['movie-page__video']}>
+              {renderPlayer()}
             </div>
-
           </section>
+
         </section>
       </article>
     </main>
@@ -130,3 +94,4 @@ const MoviePage: React.FC = () => {
 };
 
 export default MoviePage;
+
